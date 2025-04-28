@@ -11,6 +11,7 @@ namespace NotificationSystem.Infrastructure;
 
 public static class MassTransitConfig
 {
+    // src/NotificationSystem.Infrastructure/MassTransitConfig.cs
     public static void AddMassTransitWithRabbitMq(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddMassTransit(x =>
@@ -18,6 +19,9 @@ public static class MassTransitConfig
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host(configuration.GetConnectionString("RabbitMq"));
+
+                // Configure message routing
+                cfg.ConfigureEndpoints(context);
             });
         });
     }

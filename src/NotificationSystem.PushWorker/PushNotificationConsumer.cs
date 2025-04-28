@@ -11,7 +11,9 @@ public class PushNotificationConsumer : IConsumer<NotificationMessage>
 
         if (message.Channel == "Push")
         {
-            Console.WriteLine($"[PUSH] To: {message.Recipient}, Message: {message.Message}");
+            Console.WriteLine($"[PUSH] Przetwarzanie powiadomienia {message.Id} - Do: {message.Recipient}, Wiadomość: {message.Message}");
+            await Task.Delay(100); // Symulacja czasu przetwarzania
+            Console.WriteLine($"[PUSH] Pomyślnie wysłano powiadomienie {message.Id}");
         }
     }
 }

@@ -15,24 +15,31 @@ public class NotificationsController : ControllerBase
         _notificationService = notificationService;
     }
 
+    // src/NotificationSystem.API/Controllers/NotificationsController.cs
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Notification notification)
     {
-        // Ustawienie domyślnego id i statusu, jeśli nie zostały podane
+        // Set default values if not provided
         if (notification.Id == Guid.Empty)
         {
-            notification.Id = Guid.NewGuid(); // generowanie unikalnego ID
+            notification.Id = Guid.NewGuid();
         }
 
         if (notification.Status == 0)
         {
-            notification.Status = NotificationStatus.Pending;  // lub NotificationStatus.<wybranyStatus>    
+            notification.Status = NotificationStatus.Pending;
         }
 
-        // Tworzenie powiadomienia
+        // Set scheduled time to current time if not specified
+        if (notification.ScheduledAt == default)
+        {
+            notification.ScheduledAt = DateTime.UtcNow;
+        }
+
+        // Create notification and publish message
         await _notificationService.CreateNotificationAsync(notification);
 
-        return Ok();
+        return CreatedAtAction(nameof(Create), new { id = notification.Id }, notification);
     }
 
 }

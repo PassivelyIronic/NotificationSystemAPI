@@ -21,10 +21,13 @@ public class NotificationService
         _publishEndpoint = publishEndpoint;
     }
 
+    // src/NotificationSystem.Application/NotificationService.cs
     public async Task CreateNotificationAsync(Notification notification)
     {
+        // Save to MongoDB
         await _dbContext.Notifications.InsertOneAsync(notification);
 
+        // Create message
         var message = new NotificationMessage
         {
             Id = notification.Id,
@@ -33,7 +36,10 @@ public class NotificationService
             Channel = notification.Channel.ToString()
         };
 
+        // Publish message to RabbitMQ
         await _publishEndpoint.Publish(message);
+
+        Console.WriteLine($"Notification queued: {notification.Id} to {notification.Recipient} via {notification.Channel}");
     }
 }
 
