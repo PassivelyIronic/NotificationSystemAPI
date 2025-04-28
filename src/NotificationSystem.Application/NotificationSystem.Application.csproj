@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NotificationSystem.Domain\NotificationSystem.Domain.csproj" />
+    <ProjectReference Include="..\NotificationSystem.Infrastructure\NotificationSystem.Infrastructure.csproj" />
+    <ProjectReference Include="..\NotificationSystem.Messaging\NotificationSystem.Messaging.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
